@@ -22,15 +22,7 @@ class TexteReglementaireController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        return view('textes-reglementaires.create');
-    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -51,10 +43,15 @@ class TexteReglementaireController extends Controller
         ]);
 
         // Enregistrez les données dans la base de données
-        TexteReglementaire::create($validatedData);
+        $data = TexteReglementaire::create($validatedData);
 
         // Redirigez l'utilisateur vers la liste des textes réglementaires avec un message de confirmation
-        return redirect()->route('textes-reglementaires.index')->with('success', 'Le texte réglementaire a été créé avec succès.');
+        // return redirect()->route('textes-reglementaires.index')->with('success', 'Le texte réglementaire a été créé avec succès.');
+        return response()->json([
+            "success" => true,
+            "message" => "data was stored successfully",
+            "data" => $data,
+        ]);
     }
 
     /**
@@ -63,11 +60,11 @@ class TexteReglementaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        $texteReglementaire = TexteReglementaire::find($id);
-        return view('textes-reglementaires.show', compact('texteReglementaire'));
-    }
+    // public function show($id)
+    // {
+    //     $texteReglementaire = TexteReglementaire::find($id);
+    //     return view('textes-reglementaires.show', compact('texteReglementaire'));
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -75,11 +72,7 @@ class TexteReglementaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
-    {
-        $texteReglementaire = TexteReglementaire::find($id);
-        return view('textes-reglementaires.edit', compact('texteReglementaire'));
-    }
+
 
     /**
      * Update the specified resource in storage.
@@ -88,7 +81,7 @@ class TexteReglementaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-        
+
     public function update(Request $request, $id)
     {
         // Valider les données du formulaire
@@ -103,16 +96,23 @@ class TexteReglementaireController extends Controller
 
         // Mettez à jour les données dans la base de données
         $texteReglementaire = TexteReglementaire::find($id);
-        
+
         if (!$texteReglementaire) {
             // Gérez le cas où la ressource n'est pas trouvée
-            return redirect()->route('textes-reglementaires.index')->with('error', 'La ressource n\'existe pas.');
+            return response()->json([
+                "success" => false,
+                "message" => "Ressource not found"
+            ]);
         }
 
-        $texteReglementaire->update($validatedData);
+        $updatedData = $texteReglementaire->update($validatedData);
 
         // Redirigez l'utilisateur vers la liste des textes réglementaires avec un message de confirmation
-        return redirect()->route('textes-reglementaires.index')->with('success', 'Le texte réglementaire a été mis à jour avec succès.');
+        return response()->json([
+            "success" => true,
+            "message" => "Ressource was updated",
+            "data" => $updatedData
+        ]);
     }
 
     /**
@@ -121,7 +121,7 @@ class TexteReglementaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-   
+
     public function destroy($id)
     {
         // Recherchez la ressource dans la base de données
@@ -129,13 +129,19 @@ class TexteReglementaireController extends Controller
 
         if (!$texteReglementaire) {
             // Gérez le cas où la ressource n'est pas trouvée
-            return redirect()->route('textes-reglementaires.index')->with('error', 'La ressource n\'existe pas.');
+            return response()->json([
+                "success" => false,
+                "message" => "Ressource not found"
+            ]);
         }
 
         // Supprimez la ressource de la base de données
         $texteReglementaire->delete();
 
         // Redirigez l'utilisateur vers la liste des textes réglementaires avec un message de confirmation
-        return redirect()->route('textes-reglementaires.index')->with('success', 'Le texte réglementaire a été supprimé avec succès.');
+        return response()->json([
+            "success" => true,
+            "message" => "Le texte réglementaire a été supprimé avec succès"
+        ]);
     }
 }

@@ -49,7 +49,6 @@ class UserController extends Controller
     public function checkLogin(Request $request)
     {
         try {
-            $typeUser = User::where("email", $request->email)->value('type');
             return response([
                 "success" => true,
                 "message" => "User is Authentificated",

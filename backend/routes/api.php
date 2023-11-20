@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CorrespondanceController;
+use App\Http\Controllers\TexteReglementaireController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -23,3 +25,5 @@ Route::post('/login',[UserController::class,'login']);
 Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class,'logout']);
 Route::post('/check-login', [UserController::class,'checkLogin'])->name('checkLogin.api');
+Route::resource('textes-reglementaires', TexteReglementaireController::class);
+Route::resource('correspondances', CorrespondanceController::class);

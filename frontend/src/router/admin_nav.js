@@ -28,13 +28,13 @@ const _nav = [
   },
   {
     component: CNavTitle,
-    name: 'Task Management',
+    name: 'Réfernce Juridique',
   },
 
   {
     component: CNavItem,
-    name: 'Projects',
-    to: '/projects/index',
+    name: 'Refernces',
+    to: '/references-juridiques',
     icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
   },
   {

@@ -20,4 +20,4 @@ Route::get('/', function () {
 });
 
 
-Route::resource('textes-reglementaires', TexteReglementaireController::class);
+// Route::resource('textes-reglementaires', TexteReglementaireController::class);

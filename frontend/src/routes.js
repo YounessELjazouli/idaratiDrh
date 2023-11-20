@@ -4,9 +4,9 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 //Admin Routes
 
-const Projects = React.lazy(() => import('./views/app/admin/Projects'))
-const Tasks = React.lazy(() => import('./views/app/admin/Tasks'))
-const Team_Management = React.lazy(() => import('./views/app/admin/TeamManagement'))
+const refJuridique = React.lazy(() => import('./views/app/admin/Refernces'))
+// const Tasks = React.lazy(() => import('./views/app/admin/Tasks'))
+// const Team_Management = React.lazy(() => import('./views/app/admin/TeamManagement'))
 
 // Base
 const Accordion = React.lazy(() => import('./views/base/accordion/Accordion'))
@@ -57,9 +57,10 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/projects/index', name: 'Projects', element: Projects },
-  { path: '/tasks/index', name: 'Tasks', element: Tasks },
-  { path: '/teams', name: 'Team Management', element: Team_Management },
+  { path: '/references-juridiques', name: 'Refernces', element: refJuridique },
+  // { path: '/projects/index', name: 'Projects', element: Projects },
+  // { path: '/tasks/index', name: 'Tasks', element: Tasks },
+  // { path: '/teams', name: 'Team Management', element: Team_Management },
   
   // { path: '/theme', name: 'Theme', element: Colors, exact: true },
   // { path: '/theme/colors', name: 'Colors', element: Colors },
