@@ -21,24 +21,12 @@ const AppSidebar = () => {
   useEffect(() => {
     let token = getCookie('token');
     let email = getCookie('email');
+    console.log(token);
     if (token) {
       axiosYns.post('/check-login', { token: token, email: email })
         .then(({ data }) => {
-          switch (data.typeUser) {
-            case 1:
               setUserDash(adminNav);
-              break;
-            case 2:
-              setUserDash(userNav);
-              break;
-            case 0:
-              setUserDash(superAdminNav);
-              break;
-            default:
-              Navigate('/login');
-
-          }
-
+        
         })
         .catch((error) => {
           console.log(error);

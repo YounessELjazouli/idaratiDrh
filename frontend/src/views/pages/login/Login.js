@@ -32,17 +32,17 @@ const Login = () => {
       const response = await axiosYns.post('/login', formData);
   
       if (response.data.success) {
+        console.log(response.data.access_token);
         // Set cookies here
         document.cookie = `token=${response.data.token}; path=/`;
-        document.cookie = `user=${response.data.username}; path=/`;
-        document.cookie = `email=${response.data.email}; path=/`;
-        document.cookie = `type=${response.data.type}; path=/`;
+        // document.cookie = `user=${response.data.username}; path=/`;
+        // document.cookie = `email=${response.data.email}; path=/`;
+        // document.cookie = `type=${response.data.type}; path=/`;
         Navigate('/')
         
       } else {
         // Handle login failure
         console.log(response); // Log the error message
-        alert(response.data.message); // Show an alert with the error message
       }
     } catch (error) {
       console.error(error);
