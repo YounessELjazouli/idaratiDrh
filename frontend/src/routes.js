@@ -5,6 +5,7 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 //Admin Routes
 
 const refJuridique = React.lazy(() => import('./views/app/admin/Refernces'))
+const newRefJuridique = React.lazy(() => import('./views/app/admin/NewRefernces'))
 // const Tasks = React.lazy(() => import('./views/app/admin/Tasks'))
 // const Team_Management = React.lazy(() => import('./views/app/admin/TeamManagement'))
 
@@ -56,6 +57,7 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
+  { path: '/newRefJuridique', element: newRefJuridique },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/references-juridiques', name: 'Refernces', element: refJuridique },
   // { path: '/projects/index', name: 'Projects', element: Projects },

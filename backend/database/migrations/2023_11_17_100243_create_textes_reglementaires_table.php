@@ -21,7 +21,8 @@ class CreateTextesReglementairesTable extends Migration
             $table->text('ref');
             $table->date('date');
             $table->text('texte');
-            // Ajoutez d'autres colonnes si nécessaire
+            $table->unsignedBigInteger('doctype_id');
+            $table->foreign('doctype_id')->references('id')->on('doctypes');            // Ajoutez d'autres colonnes si nécessaire
         });
     }
 

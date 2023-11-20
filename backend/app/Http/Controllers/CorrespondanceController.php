@@ -25,14 +25,16 @@ class CorrespondanceController extends Controller
 
     public function store(Request $request)
     {
-        $request->validate([
-            'reference' => 'required',
-            'date' => 'required|date',
-            'objet' => 'required',
-            'type' => 'required',
-            'file' => 'required',
-        ]);
+        // $request->validate([
+        //     'reference' => 'required',
+        //     'date' => 'required|date',
+        //     'objet' => 'required',
+        //     'type' => 'required',
+        //     // 'file' => 'required',
+        // ]);
+        $file = $request->file('file');
 
+        $filePath = $file->store('uploads', 'public');        
         $correspondance = Correspondance::create($request->all());
 
         return response()->json(['data' => $correspondance], 201);

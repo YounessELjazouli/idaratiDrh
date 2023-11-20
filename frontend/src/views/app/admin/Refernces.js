@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axiosYns from 'src/axios';
 import { CCard } from '@coreui/react';
 const moment = require('moment');
-
+import { useNavigate } from 'react-router-dom';
 function Refernces() {
+  const Navigate = useNavigate();
   const [listRefs, setlistRefs] = useState(null);
   const [filteredListRefs, setfilteredListRefs] = useState(null);
   const [isFiltered, setIsFilterd] = useState(false);
@@ -34,8 +35,8 @@ function Refernces() {
     filterDataByDate(value);
   };
 
-  const filterByDate = (dateD,dateF) => {
-    console.log(dateD+" "+dateF);
+  const filterByDate = (dateD, dateF) => {
+    console.log(dateD + " " + dateF);
     setDateDebut(dateD);
     setDateFin(dateF);
     const filteredData = listRefs.filter((item) => {
@@ -52,6 +53,9 @@ function Refernces() {
     // // Use filteredData for your display or further operations
     // console.log(filteredData);
   };
+  const goToStorePage = () => {
+    Navigate('/newRefJuridique');
+  }
 
   return (
     <div>
@@ -61,10 +65,11 @@ function Refernces() {
             placeholder='Filter par ref'
             onChange={(e) => filterByref(e.target.value)}
             className='w-25' />
-        <div>
-          <input type="date" value={dateDebut} onChange={(e) => filterByDate(e.target.value,dateFin)} />
-          <input type="date"  value={dateFin}  onChange={(e) => filterByDate(dateDebut,e.target.value)} />
-        </div>
+          <div>
+            <input type="date" value={dateDebut} onChange={(e) => filterByDate(e.target.value, dateFin)} />
+            <input type="date" value={dateFin} onChange={(e) => filterByDate(dateDebut, e.target.value)} />
+          </div>
+          <button onClick={goToStorePage} className='btn btn-success w-25'>Ajouter</button>
         </div>
 
       </CCard>
