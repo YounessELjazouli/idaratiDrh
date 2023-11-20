@@ -23,4 +23,8 @@ class TexteReglementaire extends Model
     public $incrementing = false;
     protected $keyType = 'integer';
     public $timestamps = false; // Si votre table n'a pas de colonnes created_at et updated_at
+
+    public function doctype(){
+        $this->belongsTo(Doctype::class);
+    }
 }

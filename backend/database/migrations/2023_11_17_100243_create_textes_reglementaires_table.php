@@ -15,7 +15,7 @@ class CreateTextesReglementairesTable extends Migration
     public function up()
     {
         Schema::create('textes_reglementaires', function (Blueprint $table) {
-            $table->integer('numero_serie')->primary();
+            $table->id();
             $table->string('qualite_texte', 20);
             $table->text('sujet');
             $table->text('ref');

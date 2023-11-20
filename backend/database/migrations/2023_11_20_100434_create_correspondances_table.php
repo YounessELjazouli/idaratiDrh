@@ -12,8 +12,9 @@ class CreateCorrespondancesTable extends Migration
             $table->string('reference', 20);
             $table->date('date');
             $table->string('objet');
-            $table->string('type', 20);
             $table->text('file');
+            $table->unsignedBigInteger('doctype_id');
+            $table->foreign('doctype_id')->references('id')->on('doctypes'); 
             $table->timestamps(); // Ajoute des colonnes created_at et updated_at automatiquement
         });
     }

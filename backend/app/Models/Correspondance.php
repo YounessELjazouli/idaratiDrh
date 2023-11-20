@@ -9,6 +9,10 @@ class Correspondance extends Model
 {
     use HasFactory;
     protected $fillable = ['reference', 'date', 'objet', 'type', 'file'];
+
+    public function doctype(){
+        $this->belongsTo(Doctype::class);
+    }
 }
 
 
