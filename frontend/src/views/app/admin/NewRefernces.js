@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axiosYns from 'src/axios'
-
+import { useNavigate } from 'react-router-dom'
 function NewRefernces() {
   const [doctypes, setdoctypes] = useState(null)
   const [selectedDoctypes, setSelectedDoctypes] = useState(null)
@@ -8,6 +8,7 @@ function NewRefernces() {
   const [reference, setRefernce] = useState(null)
   const [date, setDate] = useState(null)
   const [file, setFile] = useState(null)
+  const Navigate = useNavigate();
   const getDocTypes = async () => {
     await axiosYns.get('/types-correspondances')
       .then(({ data }) => {
@@ -19,17 +20,36 @@ function NewRefernces() {
   }, [])
   const storeData = async () => {
     const formData = new FormData();
-    formData.append('reference', reference);
-    formData.append('date', date);
-    formData.append('objet', sujet);
-    formData.append('selectedDoctypes', selectedDoctypes);
-    formData.append('file', file);
-    const response = await axiosYns.post('/correspondances', formData,{
+
+    await Promise.all([
+      formData.append('reference', reference),
+      formData.append('date', date),
+      formData.append('objet', sujet),
+      formData.append('selectedDoctypes', selectedDoctypes),
+      formData.append('file', file),
+    ]);
+
+    console.log('Form Data:', {
+      'reference': reference,
+      'date': date,
+      'objet': sujet,
+      'selectedDoctypes': selectedDoctypes,
+      'file': file,
+    });
+    const response = await axiosYns.post('/correspondances', {
+      'reference': reference,
+      'date': date,
+      'objet': sujet,
+      'selectedDoctypes': selectedDoctypes,
+      'file': file,
+    }, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
     });
-    console.log('Response:', response.data);
+    if(response){
+      Navigate('/references-juridiques')
+    }
 
   }
   return (
@@ -79,8 +99,7 @@ function NewRefernces() {
         <input
           type="file"
           className="form-control"
-          onChange={(e) => setFile(e.target.value)}
-        />
+          onChange={(e) => setFile(e.target.files[0])} />
       </div>
       <button onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'>Ajouter</button>
     </div>

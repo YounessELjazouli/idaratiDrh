@@ -11,7 +11,7 @@ class Correspondance extends Model
     protected $fillable = ['reference', 'date', 'objet', 'type', 'file'];
 
     public function doctype(){
-        $this->belongsTo(Doctype::class);
+        return $this->belongsTo(Doctype::class);
     }
 }
 
