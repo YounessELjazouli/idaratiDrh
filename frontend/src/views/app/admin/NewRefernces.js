@@ -8,6 +8,8 @@ function NewRefernces() {
   const [reference, setRefernce] = useState(null)
   const [date, setDate] = useState(null)
   const [file, setFile] = useState(null)
+  const [isLoading , setIsLoading] = useState(false)
+
   const Navigate = useNavigate();
   const getDocTypes = async () => {
     await axiosYns.get('/types-correspondances')
@@ -19,6 +21,7 @@ function NewRefernces() {
     getDocTypes();
   }, [])
   const storeData = async () => {
+    setIsLoading(true);
     const formData = new FormData();
 
     await Promise.all([
@@ -29,13 +32,7 @@ function NewRefernces() {
       formData.append('file', file),
     ]);
 
-    console.log('Form Data:', {
-      'reference': reference,
-      'date': date,
-      'objet': sujet,
-      'selectedDoctypes': selectedDoctypes,
-      'file': file,
-    });
+
     const response = await axiosYns.post('/correspondances', {
       'reference': reference,
       'date': date,
@@ -50,7 +47,7 @@ function NewRefernces() {
     if(response){
       Navigate('/references-juridiques')
     }
-
+    setIsLoading(false);
   }
   return (
     <div>
@@ -101,7 +98,8 @@ function NewRefernces() {
           className="form-control"
           onChange={(e) => setFile(e.target.files[0])} />
       </div>
-      <button onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'>Ajouter</button>
+      <button onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'
+      disabled={isLoading}>Ajouter</button>
     </div>
   )
 }

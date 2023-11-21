@@ -59,7 +59,7 @@ const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/newRefJuridique', element: newRefJuridique },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
-  { path: '/references-juridiques', name: 'Refernces', element: refJuridique },
+  { path: '/references-juridiques', name: 'Réferences juridiques', element: refJuridique },
   // { path: '/projects/index', name: 'Projects', element: Projects },
   // { path: '/tasks/index', name: 'Tasks', element: Tasks },
   // { path: '/teams', name: 'Team Management', element: Team_Management },

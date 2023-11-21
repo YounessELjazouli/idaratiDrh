@@ -144,9 +144,13 @@ function Refernces() {
             </CFormSelect>
           </div>
           <div className='col-md-3'>
-            <button onClick={clearFilter} className='mx-2 btn btn-danger'>
+            {
+              isFiltered && 
+              <button onClick={clearFilter} className='mx-2 btn btn-danger'>
               <CIcon icon={cilFilterX} />
             </button>
+            }
+
             <button onClick={goToStorePage} className='btn btn-success btn-block'>Ajouter</button>
           </div>
         </div>

@@ -7,6 +7,8 @@ import {
   cilCursor,
   cilDescription,
   cilDrop,
+  cilInbox,
+  cilInstitution,
   cilNotes,
   cilPencil,
   cilPuzzle,
@@ -33,32 +35,13 @@ const _nav = [
 
   {
     component: CNavItem,
-    name: 'Refernces',
+    name: 'Réferences juridiques',
     to: '/references-juridiques',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
+    icon: <CIcon icon={cilInstitution} customClassName="nav-icon" />,
   },
-  {
-    component: CNavItem,
-    name: 'Tasks',
-    to: '/tasks/index',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavItem,
-    name: 'New Task',
-    to: '/tasks/create',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
-  {
-    component: CNavTitle,
-    name: 'Team Collaboration',
-  },
-  {
-    component: CNavItem,
-    name: 'Team Management',
-    to: '/teams/manage',
-    icon: <CIcon icon={cilDrop} customClassName="nav-icon" />,
-  },
+
+
+
 
 
   
