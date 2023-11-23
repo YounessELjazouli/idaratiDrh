@@ -7,6 +7,7 @@ import {
   cilCursor,
   cilDescription,
   cilDrop,
+  cilEnvelopeLetter,
   cilInbox,
   cilInstitution,
   cilNotes,
@@ -39,6 +40,13 @@ const _nav = [
     to: '/references-juridiques',
     icon: <CIcon icon={cilInstitution} customClassName="nav-icon" />,
   },
+
+  {
+    component: CNavItem,
+    name: 'Correspondances',
+    to: '/correspondances-juridiques',
+    icon: <CIcon icon={cilEnvelopeLetter} customClassName="nav-icon" />,
+  }
 
 
 

@@ -15,6 +15,10 @@ class DoctypeController extends Controller
         ]);
     }
     public function typeTextes(){
-
+        $types = Doctype::where('type','textes')->get();
+        return response()->json([
+            "success" => true,
+            "data" => $types,
+        ]);
     }
 }

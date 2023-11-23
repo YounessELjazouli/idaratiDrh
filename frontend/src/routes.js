@@ -6,6 +6,9 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
 const refJuridique = React.lazy(() => import('./views/app/admin/Refernces'))
 const newRefJuridique = React.lazy(() => import('./views/app/admin/NewRefernces'))
+const newCorrAdm = React.lazy(() => import('./views/app/admin/NewCorr'))
+const corrJuridique = React.lazy(() => import('./views/app/admin/Correspondances'))
+const updateCorr = React.lazy(() => import('./views/app/admin/UpdateCorr'))
 // const Tasks = React.lazy(() => import('./views/app/admin/Tasks'))
 // const Team_Management = React.lazy(() => import('./views/app/admin/TeamManagement'))
 
@@ -60,6 +63,9 @@ const routes = [
   { path: '/newRefJuridique', element: newRefJuridique },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
   { path: '/references-juridiques', name: 'Réferences juridiques', element: refJuridique },
+  { path: '/correspondances-juridiques', name: 'Correspondances', element: corrJuridique },
+  { path: '/newCorrAdm', element: newCorrAdm },
+  { path: '/updateCorr/:id', element: updateCorr },
   // { path: '/projects/index', name: 'Projects', element: Projects },
   // { path: '/tasks/index', name: 'Tasks', element: Tasks },
   // { path: '/teams', name: 'Team Management', element: Team_Management },

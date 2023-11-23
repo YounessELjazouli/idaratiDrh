@@ -45,7 +45,8 @@
     "reactjs-popup": "^2.0.6",
     "redux": "4.2.1",
     "simplebar-react": "^2.4.3",
-    "sweetalert2": "^11.7.32"
+    "sweetalert2": "^11.7.32",
+    "webpack": "^5.89.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.16.5",

@@ -35,3 +35,4 @@ Route::get('/types-correspondances',[DoctypeController::class,"typeCorrespondanc
 Route::get('/stats-1',[StatController::class,"stat1"]);
 Route::get('/stats-2',[StatController::class,"stat2"]);
 Route::get('/stats-3',[StatController::class,"stat3"]);
+Route::post('/texte-update/{id}',[TexteReglementaireController::class,"update"]);

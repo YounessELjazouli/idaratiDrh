@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TexteReglementaire;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class TexteReglementaireController extends Controller
 {
@@ -14,13 +15,32 @@ class TexteReglementaireController extends Controller
      */
     public function index()
     {
-        $textesReglementaires = TexteReglementaire::all();
+        // $textesReglementaires = TexteReglementaire::all();
+        $textesReglementaires = TexteReglementaire::with('doctype')->get();
         // return view('textes-reglementaires.index', compact('textesReglementaires'));+-
         return response()->json([
             "success" => true,
             "data" => $textesReglementaires
         ]);
     }
+
+
+    public function show($id)
+{
+    $texteReglementaire = TexteReglementaire::with('doctype')->find($id);
+
+    if (!$texteReglementaire) {
+        return response()->json([
+            "success" => false,
+            "message" => "Resource not found"
+        ]);
+    }
+
+    return response()->json([
+        "success" => true,
+        "data" => $texteReglementaire
+    ]);
+}
 
 
 
@@ -31,19 +51,37 @@ class TexteReglementaireController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
+
     {
+
+
         // Valider les données du formulaire
-        $validatedData = $request->validate([
-            'numero_serie' => 'required|integer|unique:textes_reglementaires',
-            'qualite_texte' => 'required|string|max:20',
+       /*  $validatedData = $request->validate([
+            
             'sujet' => 'required|string',
             'ref' => 'required|string',
             'date' => 'required|date',
-            'texte' => 'required|string',
-        ]);
+            'texte' => 'required',
+            'selectedDoctypes' => 'required'
+        ]); */
+
+        $file = $request->file('texte');
+        if (!Storage::disk('public')->exists('uploads')) {
+            Storage::disk('public')->makeDirectory('uploads');
+        }
+        $filePath = $file->store('uploads', 'public'); 
+        $file->move(public_path('uploads'), $filePath);
+
 
         // Enregistrez les données dans la base de données
-        $data = TexteReglementaire::create($validatedData);
+        $data = TexteReglementaire::create([
+            "sujet" => $request->sujet,
+            "ref" => $request->ref,
+            "date" => $request->date,
+            "doctype_id" => $request->selectedDoctypes,
+            "texte" => $filePath,
+
+        ]);
 
         // Redirigez l'utilisateur vers la liste des textes réglementaires avec un message de confirmation
         // return redirect()->route('textes-reglementaires.index')->with('success', 'Le texte réglementaire a été créé avec succès.');
@@ -85,14 +123,13 @@ class TexteReglementaireController extends Controller
     public function update(Request $request, $id)
     {
         // Valider les données du formulaire
-        $validatedData = $request->validate([
-            'numero_serie' => 'required|integer',
-            'qualite_texte' => 'required|string|max:20',
+        /* $validatedData = $request->validate([
             'sujet' => 'required|string',
             'ref' => 'required|string',
             'date' => 'required|date',
-            'texte' => 'required|string',
-        ]);
+            'texte' => 'required',
+            'doctype_id' => 'required'
+        ]); */
 
         // Mettez à jour les données dans la base de données
         $texteReglementaire = TexteReglementaire::find($id);
@@ -105,7 +142,21 @@ class TexteReglementaireController extends Controller
             ]);
         }
 
-        $updatedData = $texteReglementaire->update($validatedData);
+        $file = $request->file('texte');
+        if (!Storage::disk('public')->exists('uploads')) {
+            Storage::disk('public')->makeDirectory('uploads');
+        }
+        $filePath = $file->store('uploads', 'public'); 
+        $file->move(public_path('uploads'), $filePath);
+
+
+        $updatedData = $texteReglementaire->update([
+            "sujet" => $request->sujet,
+            "ref" => $request->ref,
+            "date" => $request->date,
+            "doctype_id" => $request->selectedDoctypes,
+            "texte" => $filePath
+        ]);
 
         // Redirigez l'utilisateur vers la liste des textes réglementaires avec un message de confirmation
         return response()->json([

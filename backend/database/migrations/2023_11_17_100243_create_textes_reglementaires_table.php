@@ -16,7 +16,7 @@ class CreateTextesReglementairesTable extends Migration
     {
         Schema::create('textes_reglementaires', function (Blueprint $table) {
             $table->id();
-            $table->string('qualite_texte', 20);
+          
             $table->text('sujet');
             $table->text('ref');
             $table->date('date');
