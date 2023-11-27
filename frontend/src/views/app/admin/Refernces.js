@@ -74,7 +74,7 @@ function Refernces() {
     window.open(`http://localhost:8000/${url}`, '_blank')
   }
   const update = (id) => {
-
+    Navigate(`/updateRef/${id}`)
   }
   const deleteRef = (id) => {
     axiosYns.delete(`/correspondances/${id}`)
