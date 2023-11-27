@@ -27,9 +27,32 @@ class StatController extends Controller
     public function stat3()
     {
         // Fetching specific data based on a condition
-        $specificData = Correspondance::where('reference', 'specific_value')->count();
-
+        // $specificData = Correspondance::where('reference', 'specific_value')->count();
+        $specificData = [12,20,11,33,12];
+        
         return response()->json(['statistic_3' => $specificData]);
+    }
+
+    
+    public function abstractStat(Request $request){
+        $select =$request->only?strtoupper($request->only):'*';
+
+        $data =[
+            "select"=>$select
+        ];
+        if($select=="REF" || $select=="*"){
+            $REF_Count = Doctype::withCount('correspondances')
+            ->where("type","refs")
+            ->get();
+            $data=array_merge($data,["REF"=>$REF_Count]);
+        }
+        if($select=="COR" || $select=="*"){
+            $CORR_Count = Doctype::withCount('textesreglementaires')
+            ->where("type","textes")
+            ->get();
+            $data=array_merge($data,["COR"=>$CORR_Count]);
+        }
+        return response()->json($data);
     }
 }
 

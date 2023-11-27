@@ -26,6 +26,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::post('/login',[UserController::class,'login']);
 Route::post('/register',[UserController::class,'register']);
 Route::post('/logout',[UserController::class,'logout']);
+
 Route::post('/check-login', [UserController::class,'checkLogin'])->name('checkLogin.api');
 Route::resource('textes-reglementaires', TexteReglementaireController::class);
 Route::resource('correspondances', CorrespondanceController::class);
@@ -35,4 +36,7 @@ Route::get('/types-correspondances',[DoctypeController::class,"typeCorrespondanc
 Route::get('/stats-1',[StatController::class,"stat1"]);
 Route::get('/stats-2',[StatController::class,"stat2"]);
 Route::get('/stats-3',[StatController::class,"stat3"]);
+
+Route::get('/abstract',[StatController::class,"abstractStat"]);//abstract
+
 Route::post('/texte-update/{id}',[TexteReglementaireController::class,"update"]);

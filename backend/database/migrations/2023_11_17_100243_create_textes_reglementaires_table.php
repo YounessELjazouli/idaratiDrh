@@ -16,13 +16,14 @@ class CreateTextesReglementairesTable extends Migration
     {
         Schema::create('textes_reglementaires', function (Blueprint $table) {
             $table->id();
-          
             $table->text('sujet');
             $table->text('ref');
             $table->date('date');
             $table->text('texte');
             $table->unsignedBigInteger('doctype_id');
             $table->foreign('doctype_id')->references('id')->on('doctypes');            // Ajoutez d'autres colonnes si nécessaire
+            $table->timestamps(); // Ajoute des colonnes created_at et updated_at automatiquement
+
         });
     }
 

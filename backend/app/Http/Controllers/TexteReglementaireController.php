@@ -16,7 +16,7 @@ class TexteReglementaireController extends Controller
     public function index()
     {
         // $textesReglementaires = TexteReglementaire::all();
-        $textesReglementaires = TexteReglementaire::with('doctype')->get();
+        $textesReglementaires = TexteReglementaire::with('doctype')->orderBy("created_at","desc")->get();
         // return view('textes-reglementaires.index', compact('textesReglementaires'));+-
         return response()->json([
             "success" => true,
