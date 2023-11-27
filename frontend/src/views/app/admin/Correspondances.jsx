@@ -101,46 +101,44 @@ function Correspondances() {
   return (
     <div>
         <CCard className='my-3 container text-center'>
-        <div className='row p-2'>
-          <div>
-            <label htmlFor='ref'>Réference</label>
-            <input type='text'
-              id='ref'
-              placeholder='Filter par Réference'
-              onChange={(e) => filterByref(e.target.value)}
-              className='w-25' />
-          </div>
-          <div>
-            <label htmlFor='sujet'>Sujet</label>
-            <input type='text'
-            id='sujet'
-            placeholder='Filter par Sujet'
-            onChange={(e) => filterBySujet(e.target.value)}
-            className='w-25' />
-          </div>
-          <div>
+          <div className='row align-items-center m-2'>
+            <div className='col-md-2'>
+              {/* <label htmlFor='ref'>Réference</label> */}
+              <input type='text'
+                id='ref'
+                placeholder='Filter par Réference'
+                onChange={(e) => filterByref(e.target.value)}
+                className='w-50' />
+            </div>
+            <div className='col-md-2'>
+              {/* <label htmlFor='sujet'>Sujet</label> */}
+              <input type='text'
+              id='sujet'
+              placeholder='Filter par Sujet'
+              onChange={(e) => filterBySujet(e.target.value)}
+              className='w-50' />
+            </div>
+            <div className='col-md-2'>
 
-            <label htmlFor='type'>Type</label>
-            <input type='text'
-            id='type'
-            placeholder='Filter par Type'
-            onChange={(e) => filterByType(e.target.value)}
-            className='w-25' />
-          </div>
-          <div>
-            <label htmlFor="date">Date</label>
+              {/* <label htmlFor='type'>Type</label> */}
+              <input type='text'
+              id='type'
+              placeholder='Filter par Type'
+              onChange={(e) => filterByType(e.target.value)}
+              className='w-50' />
+            </div>
+            <div className='col-md-6 form-group d-flex'>
+              {/* <label htmlFor="date">Date</label> */}
 
-            <input type="date" value={dateDebut} onChange={(e) => filterByDate(e.target.value,dateFin)} />
-            <input type="date" value={dateFin}  onChange={(e) => filterByDate(dateDebut,e.target.value)} />
-       
-          </div>
-          <div>
-
-          <button onClick={goToStorePage} className='btn btn-success w-25'>Ajouter</button>
-          </div>
+              <input type="date" className='form-control w-20' value={dateDebut} onChange={(e) => filterByDate(e.target.value,dateFin)} />
+              <input type="date" className='form-control w-20 ml-1' value={dateFin}  onChange={(e) => filterByDate(dateDebut,e.target.value)} />
         
-        </div>
-
+            </div>
+                      
+          </div>
+          <div className='row d-flex justify-content-center'>
+            <button onClick={goToStorePage} className='btn btn-success w-25 m-2'>Ajouter</button>
+          </div>
       </CCard>
       <div class="table-responsive">
         <table class="table align-middle">
@@ -174,12 +172,19 @@ function Correspondances() {
                     </tr>
                   )
                 })
-                : <>Wait to fetch</>
+                : <></>
             }
           </tbody>
         </table>
       </div>
-
+      {
+        !listRefs&&
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        }
     </div>
   )
 }

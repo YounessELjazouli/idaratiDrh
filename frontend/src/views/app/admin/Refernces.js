@@ -87,8 +87,9 @@ function Refernces() {
   }
 
   const handleDoctypeChange = (value) => {
+    
     const lowercaseValue = value.toLowerCase();
-    setSelectedDoctype(lowercaseValue);
+    setSelectedDoctype(value);
   
     const filteredRefs = listRefs.filter((ref) => {
       return lowercaseValue === ref.doctype.nom.toLowerCase();
@@ -191,12 +192,19 @@ function Refernces() {
                     </tr>
                   )
                 })
-                : <>Wait to fetch</>
+                : <></>
             }
           </tbody>
         </table>
       </div>
-
+      {
+        !listRefs&&
+        <div class="text-center">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        }
     </div>
   )
 }

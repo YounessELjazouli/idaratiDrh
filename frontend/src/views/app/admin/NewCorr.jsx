@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useState, useEffect,Suspense} from 'react'
 import axiosYns from 'src/axios'
 import { useNavigate } from 'react-router-dom'
 import './newcorr.css'
@@ -10,6 +10,8 @@ const navigate = useNavigate()
     const [reference, setRefernce] = useState(null)
     const [date, setDate] = useState(null)
     const [file, setFile] = useState(null)
+
+    const [loading,setLoading] = useState(false)
     const getDocTypes = async () => {
       await axiosYns.get('/types-textes-reglementaires')
         .then(({ data }) => {
@@ -28,6 +30,7 @@ const navigate = useNavigate()
         formData.append('texte', file);  // Make sure 'file' matches the name used in the Laravel controller
        
         try {
+          setLoading(true);
           const response = await axiosYns.post('/textes-reglementaires', formData, {
             headers: {
               'Content-Type': 'multipart/form-data',
@@ -39,6 +42,7 @@ const navigate = useNavigate()
         } catch (error) {
           console.error('Error storing data:', error);
         }
+        setLoading(false);
       };
 
   return (
@@ -92,7 +96,13 @@ const navigate = useNavigate()
           onChange={(e) => setFile(e.target.files[0])}
         />
       </div>
-      <button onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'>Ajouter</button>
+        <button disabled={loading} onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'>
+        
+          {loading?<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>:""} 
+          <span role="status">Ajouter</span>
+          
+          </button>
+      
     </div>
   )
 }

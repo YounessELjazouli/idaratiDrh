@@ -21,6 +21,7 @@ import getCookie from 'src/helpers/getToken';
 const Login = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const [connecting,setConnecting]=useState(false)
   const Navigate = useNavigate();
   const login = async () => {
     try {
@@ -28,9 +29,9 @@ const Login = () => {
         email: email,
         password: password,
       }
-  
+      setConnecting(true);
       const response = await axiosYns.post('/login', formData);
-  
+      setConnecting(false);
       if (response.data.success) {
         console.log(response.data.access_token);
         // Set cookies here
@@ -80,6 +81,8 @@ const Login = () => {
                     <CRow>
                       <CCol xs={6}>
                         <CButton color="primary" className="px-4" onClick={login}>
+                        {connecting?<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>:""} 
+
                           Login
                         </CButton>
                       </CCol>
