@@ -99,7 +99,10 @@ function NewRefernces() {
           onChange={(e) => setFile(e.target.files[0])} />
       </div>
       <button onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'
-      disabled={isLoading}>Ajouter</button>
+      disabled={isLoading}>
+        {isLoading?<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>:""} 
+        <span role="status">Ajouter</span>
+        </button>
     </div>
   )
 }

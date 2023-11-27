@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
+import MY_ICONS from 'src/Config/icon'
+
 import {
   CAvatar,
   CButton,
@@ -8,6 +10,8 @@ import {
   CCardBody,
   CCardFooter,
   CCardHeader,
+  CCardSubtitle,
+  CCardTitle,
   CCol,
   CProgress,
   CRow,
@@ -23,99 +27,169 @@ import { getStyle, hexToRgba } from '@coreui/utils'
 import CIcon from '@coreui/icons-react'
 import axiosYns from 'src/axios'
 
+import {cilBalanceScale, cilEnvelopeLetter, cilInstitution, cilReload} from '@coreui/icons';
+
 
 
 const Dashboard = () => {
-  const [statistic1Data, setStatistic1Data] = useState([]);
-  const [statistic2Data, setStatistic2Data] = useState(0);
-  const [statistic3Data, setStatistic3Data] = useState(0);
-
-  useEffect(() => {
-    const getStats = async () => {
-      try {
-        const response1 = await axiosYns.get('/stats-1');
-        setStatistic1Data(response1.data.statistic_1);
   
-        const response2 = await axiosYns.get('/stats-2');
-        setStatistic2Data(response2.data.statistic_2);
-  
-        const response3 = await axiosYns.get('/stats-3');
-        setStatistic3Data(response3.data.statistic_3);
-      } catch (error) {
-        console.error(error);
+  const [loadingGlobal, setLoadingGlobal] = useState(false);
+  const [loadingMsg, setLoadingMsg] = useState(false);
+  const [loadingRef, setLoadingRef] = useState(false);
+  const [abstractReff, setAbstractReff] = useState([]);
+  const [abstractCorr, setAbstractCorr] = useState([]);
+  const getStats = async (only="*") => {
+    try {
+      console.log("louading..................");
+      const resAbstract = await axiosYns.get('/abstract',
+      {
+        params: {
+            only: only
+        }
       }
-    };
-  
+      );
+      console.log("ready !!");
+      console.log("Set Data...");
+      if(resAbstract.data.select=="REF"||resAbstract.data.select=="*"){
+        setAbstractReff(resAbstract.data.REF);
+      }
+      if(resAbstract.data.select=="COR"||resAbstract.data.select=="*"){
+        setAbstractCorr(resAbstract.data.COR);
+      }
+      setLoadingMsg(false);
+      setLoadingRef(false);
+      setLoadingGlobal(false);
+      console.log(resAbstract.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const loadRefs=()=>{
+    setLoadingRef(true);
+    getStats("ref");
+  }
+  const loadMsg=()=>{
+    setLoadingMsg(true);
+    getStats("cor");
+  }
+  useEffect(() => {
+    setLoadingMsg(true);
+    setLoadingRef(true);
+    setLoadingGlobal(true);
     getStats();
-    console.log(statistic1Data)
-    console.log(statistic2Data)
-    console.log(statistic3Data)
   }, []);
   return (
     <>
     <CRow>
-      <CCol sm="4">
-        <CCard>
-          <CCardHeader>Statistic 1</CCardHeader>
-          <CCardBody>
-            <CChartLine
-              datasets={[
-                {
-                  label: 'Statistic 1',
-                  borderColor: 'rgb(0,123,255)',
-                  backgroundColor: 'rgba(0,123,255,0.1)',
-                  data: statistic1Data,
-                },
-              ]}
-              options={{
-                // Chart options
-              }}
-            />
-          </CCardBody>
-        </CCard>
-      </CCol>
+        <CCard className='p-0'>
+          <CCardHeader>
+          <CRow>
+            <CCol sm="5" className='d-flex justify-content-start'>
+              <CIcon className='mr-5' icon={cilBalanceScale} size="lg" />
+              <CCardTitle>References juridique</CCardTitle>
+            </CCol>
+            <CCol className='d-flex justify-content-end' sm="7">
+              <CButton color="info" variant="outline" onClick={loadRefs}>
+                <CIcon icon={cilReload} size="lg" />
+              </CButton>
+            </CCol>
 
-      <CCol sm="4">
-        <CCard>
-          <CCardHeader>Statistic 2</CCardHeader>
+          </CRow>
+          </CCardHeader>
+          {loadingGlobal&&
+          <div class="text-center mt-2">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div> 
+          }
           <CCardBody>
-            <CChartLine
-              datasets={[
-                {
-                  label: 'Statistic 2',
-                  borderColor: 'rgb(255,193,7)',
-                  backgroundColor: 'rgba(255,193,7,0.1)',
-                  data: [statistic2Data], // Converted to an array for single value
-                },
-              ]}
-              options={{
-                // Chart options
-              }}
-            />
+            <CRow className='d-flex justify-content-start'>
+            {abstractReff.map((ref,index)=>{
+              return (
+                <CCol key={index} sm="3">
+                <CCard className='m-2'>
+                  <CCardHeader className='d-flex'>
+                    <CIcon className='mr-5' icon={MY_ICONS[ref.nom]} size="lg" />
+                    <CCardTitle>{ref.nom}</CCardTitle>
+                  </CCardHeader>
+                  <CCardBody >
+                    {loadingRef?
+                        <div class="text-center mt-2">
+                          <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                          </div>
+                        </div>:
+                        <CCardSubtitle className='text-center fs-1'>
+                          {ref.correspondances_count}
+                        </CCardSubtitle>
+                    }
+                    
+                  </CCardBody>
+                </CCard>
+              </CCol>
+              )
+            })}
+            </CRow>
           </CCardBody>
+          
         </CCard>
-      </CCol>
+    </CRow>
+    <CRow className='mt-2'>
+        <CCard className='p-0'>
+        <CCardHeader>
+          <CRow>
+            <CCol sm="2" className='d-flex justify-content-start'>
+              <CIcon icon={cilEnvelopeLetter} size="lg" />
+              <CCardTitle>Messagerie</CCardTitle>
+            </CCol>
+            <CCol className='d-flex justify-content-end' sm="10">
+              <CButton color="info" variant="outline" onClick={loadMsg}>
+                <CIcon icon={cilReload} size="lg" />
+              </CButton>
+            </CCol>
 
-      <CCol sm="4">
-        <CCard>
-          <CCardHeader>Statistic 3</CCardHeader>
+          </CRow>
+          </CCardHeader>
+          {loadingGlobal&&
+          <div class="text-center mt-2">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+          </div>
+          }
+          
           <CCardBody>
-            <CChartLine
-              datasets={[
-                {
-                  label: 'Statistic 3',
-                  borderColor: 'rgb(40,167,69)',
-                  backgroundColor: 'rgba(40,167,69,0.1)',
-                  data: [statistic3Data], // Converted to an array for single value
-                },
-              ]}
-              options={{
-                // Chart options
-              }}
-            />
+            <CRow className='d-flex justify-content-start'>
+            {abstractCorr.map((ref,index)=>{
+              return (
+                <CCol key={index} sm="3">
+                <CCard className='m-2'>
+                  <CCardHeader className='d-flex'>
+                    <CIcon className='mr-5' icon={MY_ICONS[ref.nom]} size="lg" />
+                    <CCardTitle>{ref.nom}</CCardTitle>
+                  </CCardHeader>
+                  <CCardBody>
+                    
+                      {loadingMsg?
+                      <div class="text-center mt-2">
+                        <div class="spinner-border" role="status">
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>:
+                      <CCardSubtitle className='text-center fs-1'>
+                        {ref.textesreglementaires_count}
+                      </CCardSubtitle>
+                      }
+                  </CCardBody>
+                </CCard>
+              </CCol>
+              )
+            })}
+            </CRow>
           </CCardBody>
+          
         </CCard>
-      </CCol>
     </CRow>
   </>
   )
