@@ -9,7 +9,7 @@ class CorrespondanceController extends Controller
 {
     public function index()
     {
-        $correspondances = Correspondance::with("doctype")->get();
+        $correspondances = Correspondance::with("doctype")->orderBy("created_at","desc")->get();
         return response()->json(['data' => $correspondances], 200);
     }
 
