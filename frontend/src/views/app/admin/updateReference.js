@@ -109,7 +109,7 @@ function NewRefernces() {
           className="form-control"
           onChange={(e) => setFile(e.target.files[0])} />
       </div>
-      <button onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'
+      <button onClick={updateData} className='mt-3 d-block mx-auto w-25 btn btn-primary'
         disabled={isLoading}>Ajouter</button>
     </div>
   )
