@@ -31,7 +31,7 @@ function NewRefernces() {
   useEffect(() => {
     getDocTypes();
   }, [])
-  const storeData = async () => {
+  const updateData = async () => {
     setIsLoading(true);
     const formData = new FormData();
 

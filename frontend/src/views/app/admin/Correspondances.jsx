@@ -96,11 +96,12 @@ function Correspondances() {
 
 
   const download = (url) => {
-    window.open(`http://localhost:8000/${url}`, '_blank')
+    // window.open(`http://localhost:8000/${url}`, '_blank')
+    window.open(`axiosYns.defaults.baseURL/${url}`, '_blank')
   }
   return (
     <div>
-        <CCard className='my-3 container text-center'>
+        <CCard className='my-3 p-3 container text-center'>
           <div className='row align-items-center m-2'>
             <div className='col-md-2'>
               {/* <label htmlFor='ref'>Réference</label> */}

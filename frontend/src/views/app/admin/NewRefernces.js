@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import axiosYns from 'src/axios'
 import { useNavigate } from 'react-router-dom'
+import { CFormInput, CProgress, CProgressBar } from '@coreui/react'
+
+
 function NewRefernces() {
   const [doctypes, setdoctypes] = useState(null)
   const [selectedDoctypes, setSelectedDoctypes] = useState(null)
@@ -10,6 +13,13 @@ function NewRefernces() {
   const [file, setFile] = useState(null)
   const [isLoading , setIsLoading] = useState(false)
 
+  const [uploaded_percent,setUploaded_percent]=useState(0);
+  const uploadProgress = (progressEvent) => {
+    const { loaded, total } = progressEvent;
+    let percent = Math.floor((loaded * 100) / total);
+    setUploaded_percent(percent);
+    
+  };
   const Navigate = useNavigate();
   const getDocTypes = async () => {
     await axiosYns.get('/types-correspondances')
@@ -43,6 +53,7 @@ function NewRefernces() {
       headers: {
         'Content-Type': 'multipart/form-data',
       },
+      onUploadProgress: uploadProgress
     });
     if(response){
       Navigate('/references-juridiques')
@@ -52,9 +63,9 @@ function NewRefernces() {
   return (
     <div>
       <div className="form-floating mb-3">
-        <input
+        <CFormInput
           type="text"
-          className="form-control"
+          className="form-control text-center"
           id="reference"
           onChange={(e) => setRefernce(e.target.value)}
         />
@@ -63,7 +74,7 @@ function NewRefernces() {
       <div className="form-floating mb-3">
         <input
           type="date"
-          className="form-control"
+          className="form-control text-center"
           id="date"
           onChange={(e) => setDate(e.target.value)}
         />
@@ -71,7 +82,7 @@ function NewRefernces() {
       </div>
       <div className="form-floating mb-3">
         <textarea
-          className="form-control"
+          className="form-control text-center"
           id="sujet"
           onChange={(e) => setSujet(e.target.value)}
         ></textarea>
@@ -79,7 +90,7 @@ function NewRefernces() {
       </div>
       <div className="form-floating mb-3">
         <select
-          className="form-select"
+          className="form-control text-center form-select"
           onChange={(e) => setSelectedDoctypes(e.target.value)}
         >
           <option value="">Select Document Type</option>
@@ -92,11 +103,17 @@ function NewRefernces() {
         </select>
         <label htmlFor="docTypes">Document Types</label>
       </div>
-      <div className="mb-3">
+      <div className="d-flex flex-column mb-3">
         <input
           type="file"
-          className="form-control"
+          className="form-control text-center"
           onChange={(e) => setFile(e.target.files[0])} />
+          {
+          uploaded_percent>0 &&
+          <CProgress value={uploaded_percent}>
+            <CProgressBar className="overflow-visible text-dark px-2" color="success">{uploaded_percent<100?"Téléchargement : "+uploaded_percent+" %":"Sauvegarde..."}</CProgressBar>
+          </CProgress>
+          }
       </div>
       <button onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'
       disabled={isLoading}>

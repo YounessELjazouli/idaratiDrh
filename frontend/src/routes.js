@@ -61,13 +61,14 @@ const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
 const routes = [
   { path: '/', exact: true, name: 'Home' },
-  { path: '/newRefJuridique', element: newRefJuridique },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
+  { path: '/newRefJuridique', element: newRefJuridique },
   { path: '/references-juridiques', name: 'Réferences juridiques', element: refJuridique },
   { path: '/correspondances-juridiques', name: 'Correspondances', element: corrJuridique },
   { path: '/newCorrAdm', element: newCorrAdm },
   { path: '/updateCorr/:id', element: updateCorr },
   { path: '/updateRef/:id', element: updateRef },
+  {
   // { path: '/projects/index', name: 'Projects', element: Projects },
   // { path: '/tasks/index', name: 'Tasks', element: Tasks },
   // { path: '/teams', name: 'Team Management', element: Team_Management },
@@ -114,6 +115,7 @@ const routes = [
   // { path: '/notifications/modals', name: 'Modals', element: Modals },
   // { path: '/notifications/toasts', name: 'Toasts', element: Toasts },
   // { path: '/widgets', name: 'Widgets', element: Widgets },
+  }
 ]
 
 export default routes

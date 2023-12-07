@@ -2,6 +2,7 @@ import React, {useState, useEffect,Suspense} from 'react'
 import axiosYns from 'src/axios'
 import { useNavigate } from 'react-router-dom'
 import './newcorr.css'
+import { CProgress, CProgressBar } from '@coreui/react'
 const NewCorr = () => {
 const navigate = useNavigate()
     const [doctypes, setdoctypes] = useState(null)
@@ -10,6 +11,8 @@ const navigate = useNavigate()
     const [reference, setRefernce] = useState(null)
     const [date, setDate] = useState(null)
     const [file, setFile] = useState(null)
+
+    const [uploaded_percent,setUploaded_percent]=useState(0);
 
     const [loading,setLoading] = useState(false)
     const getDocTypes = async () => {
@@ -21,6 +24,12 @@ const navigate = useNavigate()
     useEffect(() => {
       getDocTypes();
     }, [])
+    const uploadProgress = (progressEvent) => {
+      const { loaded, total } = progressEvent;
+      let percent = Math.floor((loaded * 100) / total);
+      setUploaded_percent(percent);
+      
+    };
     const storeData = async () => {
         const formData = new FormData();
         formData.append('ref', reference);
@@ -35,9 +44,11 @@ const navigate = useNavigate()
             headers: {
               'Content-Type': 'multipart/form-data',
             },
+            onUploadProgress: uploadProgress//progressEvent => console.log(progressEvent.loaded)
           });
       
           console.log('Response:', response.data);
+          setUploaded_percent(0);
           navigate('/correspondances-juridiques')
         } catch (error) {
           console.error('Error storing data:', error);
@@ -89,12 +100,18 @@ const navigate = useNavigate()
             ))}
         </select>
       </div>
-      <div className="d-flex w-75 mx-auto mb-3">
+      <div className="d-flex flex-column w-75 mx-auto mb-3">
         <input
           type="file"
           className="form-control"
           onChange={(e) => setFile(e.target.files[0])}
         />
+        {
+        uploaded_percent>0 &&
+        <CProgress value={uploaded_percent}>
+          <CProgressBar className="overflow-visible text-dark px-2" color="success">{uploaded_percent<100?"Téléchargement : "+uploaded_percent+" %":"Sauvegarde..."}</CProgressBar>
+        </CProgress>
+        }
       </div>
         <button disabled={loading} onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'>
         

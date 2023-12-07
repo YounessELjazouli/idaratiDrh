@@ -14,11 +14,13 @@ import {
   CRow,
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
-import { cilLockLocked, cilUser } from '@coreui/icons'
+import { cilLockLocked, cilSave, cilUser } from '@coreui/icons'
 import axiosYns from 'src/axios';
 import getCookie from 'src/helpers/getToken';
+import Swal from 'sweetalert2'
 
 const Login = () => {
+  // const [failed,setFailed] = useState(false)
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [connecting,setConnecting]=useState(false)
@@ -33,7 +35,7 @@ const Login = () => {
       const response = await axiosYns.post('/login', formData);
       setConnecting(false);
       if (response.data.success) {
-        console.log(response.data.access_token);
+        
         // Set cookies here
         document.cookie = `token=${response.data.token}; path=/`;
         // document.cookie = `user=${response.data.username}; path=/`;
@@ -46,7 +48,17 @@ const Login = () => {
         console.log(response); // Log the error message
       }
     } catch (error) {
-      console.error(error);
+      if(error.response.status==401){
+        // setFailed(true);
+        setConnecting(false);
+        Swal.fire({
+          title: 'Error!',
+          text: '"le mot de passe ou le password est incorrecte !!"',
+          icon: 'error',
+          confirmButtonText: 'ok'
+        })
+      }
+
     }
   }
   

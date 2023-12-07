@@ -12,14 +12,22 @@ const DefaultLayout = () => {
     let token = getCookie('token');
     let email = getCookie('email');
     if(token){
-      axiosYns.post('/check-login',{token:token,email:email})
-        .then(({data}) => {
-          console.log(data);
+      axiosYns.post('/check-login',
+      {
+        headers:{
+          'Authorization':`Bearer ${token}`
+        }
+      }
+      
+      
+      )
+        .then((data) => {
+          console.log("OK",data);
           setisLoggedIn(false)
         })
         .catch((error) => {
-          console.log(error);
-          Navigate('/login')
+          console.log("ERR",error);
+          // Navigate('/login');
         })
     }else{
       console.log("not authentified");
