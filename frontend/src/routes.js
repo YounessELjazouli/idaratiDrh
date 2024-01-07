@@ -59,6 +59,12 @@ const Toasts = React.lazy(() => import('./views/notifications/toasts/Toasts'))
 
 const Widgets = React.lazy(() => import('./views/widgets/Widgets'))
 
+
+const pdfViewr = React.lazy(() => import('./components/pdfViewer'))
+const users = React.lazy(() => import('./views/app/admin/users/users'))
+const userCrud = React.lazy(() => import('./views/app/admin/users/userCrud'))
+const profil = React.lazy(() => import('./views/app/admin/users/profil'))
+
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', element: Dashboard },
@@ -66,8 +72,12 @@ const routes = [
   { path: '/references-juridiques', name: 'Réferences juridiques', element: refJuridique },
   { path: '/correspondances-juridiques', name: 'Correspondances', element: corrJuridique },
   { path: '/newCorrAdm', element: newCorrAdm },
-  { path: '/updateCorr/:id', element: updateCorr },
+  { path: '/updateCorr', element: updateCorr },
   { path: '/updateRef/:id', element: updateRef },
+  { path: '/pdf', name: 'pdf', element: pdfViewr },
+  { path: '/users', name: 'users', element: users },
+  { path: '/userCrud', name: 'userCrud', element: userCrud },
+  { path: '/profil', name: 'userCrud', element: profil },
   {
   // { path: '/projects/index', name: 'Projects', element: Projects },
   // { path: '/tasks/index', name: 'Tasks', element: Tasks },

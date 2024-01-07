@@ -1,5 +1,5 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { NavLink, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   CContainer,
@@ -17,10 +17,10 @@ import { cilBell, cilEnvelopeOpen, cilList, cilMenu } from '@coreui/icons'
 import { AppHeaderDropdown } from './header/index'
 import { logo } from 'src/assets/brand/logo'
 
-const AppHeader = () => {
+const AppHeader = (props) => {
   const dispatch = useDispatch()
   const sidebarShow = useSelector((state) => state.sidebarShow)
-
+  
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
@@ -58,7 +58,7 @@ const AppHeader = () => {
           </CNavItem>
         </CHeaderNav> */}
         <CHeaderNav className="ms-3">
-          <AppHeaderDropdown />
+          <AppHeaderDropdown {...props} />
         </CHeaderNav>
       </CContainer>
 

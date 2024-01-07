@@ -1,0 +1,35 @@
+export const morassalaty_text = [
+    '608 134',
+    `
+    <title>morassalatyText logo</title>
+    <svg viewBox="-537.326 -143.93 502.348 114.965" xmlns="http://www.w3.org/2000/svg" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <path id="path-0" style="fill: none;" d="M -339.886 -65.204 C -255.996 -10.161 -179.302 27.478 -101.208 53.51 C -64.846 60.282 -35.994 59.192 -8.736 66.006 C 4.518 68.505 31.451 75.674 36.25 71.004 C 47.095 60.453 77.901 27.412 89.984 7.274 C 105.519 -16.653 122.093 -34.161 132.471 -51.458 C 135.449 -59.144 146.372 -73.952 149.966 -73.952 L 149.966 -75.201 C 150.897 -75.201 151.534 -73.952 152.465 -73.952"/>
+    <style bx:fonts="Russo One">@import url(https://fonts.googleapis.com/css2?family=Russo+One%3Aital%2Cwght%400%2C400&amp;display=swap);</style>
+    <filter id="drop-shadow-filter-0" color-interpolation-filters="sRGB" x="-500%" y="-500%" width="1000%" height="1000%" bx:preset="drop-shadow 1 0 5 2 1 rgba(0,0,0,0.3)">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="2"/>
+      <feOffset dx="0" dy="5"/>
+      <feComponentTransfer result="offsetblur">
+        <feFuncA id="spread-ctrl" type="linear" slope="2"/>
+      </feComponentTransfer>
+      <feFlood flood-color="rgba(0,0,0,0.3)"/>
+      <feComposite in2="offsetblur" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g transform="matrix(1.281677, 0, 0, 1.290696, -955.44397, -268.158539)" style="">
+    <path style="stroke: rgb(0, 0, 0); fill: rgb(166, 159, 159);" d="M 330.894 178.537 L 338.53 178.537 C 338.53 178.537 338.784 111.851 338.275 111.342 C 337.766 110.833 331.658 104.979 331.658 104.979 L 330.894 178.537 Z"/>
+    <path style="stroke: rgb(0, 0, 0); fill: rgb(166, 159, 159);" d="M 398.853 178.283 L 406.235 178.792 L 405.725 129.159 L 374.164 153.339 L 374.418 162.248 L 398.853 145.704 L 398.853 178.283 Z"/>
+  </g>
+  <g transform="matrix(1.281677, 0, 0, 1.290696, -955.44397, -268.158539)" style="">
+    <path style="stroke: rgb(0, 0, 0); fill: rgb(255, 255, 255);" d="M 342.348 178.283 L 342.348 101.415 L 374.164 125.087 L 374.164 134.504 L 349.984 115.16 L 350.238 177.774 L 342.348 178.283 Z"/>
+    <path style="stroke: rgb(0, 0, 0); fill: rgb(255, 255, 255);" d="M 352.529 131.45 L 352.784 122.287 L 374.673 139.595 L 416.161 107.27 L 416.161 178.028 L 408.78 178.537 L 409.034 123.305 L 374.928 148.249 L 352.529 131.45 Z"/>
+  </g>
+  <text style="fill: rgb(255, 255, 255); font-family: &quot;Russo One&quot;; font-size: 65px; letter-spacing: 2px; white-space: pre; filter: url(#drop-shadow-filter-0);" x="-413.689" y="-61.786">Orassalaty</text>
+</svg>
+  `,
+  ]
+  

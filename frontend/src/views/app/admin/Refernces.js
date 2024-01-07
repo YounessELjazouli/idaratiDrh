@@ -1,11 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import axiosYns from 'src/axios';
-import { CCard } from '@coreui/react';
-import { cilCloudDownload, cilTrash, cilPenAlt, cilClearAll, cilFilterX, cilPlus, cilLibraryAdd, cilArrowCircleRight, cilArrowCircleLeft, cilAsteriskCircle, cilCalendar, cilSitemap } from '@coreui/icons';
+import { CCard, CFormInput, CImage, CInputGroup, CInputGroupText, CNav, CNavItem, CNavLink } from '@coreui/react';
+import { cilCloudDownload, cilTrash, cilPenAlt, cilClearAll, cilFilterX, cilPlus, cilLibraryAdd, cilArrowCircleRight, cilArrowCircleLeft, cilAsteriskCircle, cilCalendar, cilSitemap, cilCaretRight, cilCaretLeft, cilViewStream, cilLowVision, cilLayers, cilActionUndo } from '@coreui/icons';
 import CIcon from '@coreui/icons-react';
 const moment = require('moment');
 import { useNavigate } from 'react-router-dom';
 import { CFormSelect } from '@coreui/react';
+import eyes from 'src/assets/icons/eyes.svg'
+
+// import dayjs, { Dayjs } from 'dayjs';
+// import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
+// import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+// import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+// import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+
 
 function Refernces() {
   const Navigate = useNavigate();
@@ -19,6 +28,8 @@ function Refernces() {
   const [dateFin, setDateFin] = useState("");
   const [doctypes, setdoctypes] = useState(null)
   const [selectedDoctype, setSelectedDoctype] = useState('');
+  const [loading_page,setLoading_page] = useState(false)
+  const [activeKey, setActiveKey] = useState(1)
 
   const getDocTypes = async () => {
     await axiosYns.get('/types-correspondances')
@@ -38,21 +49,23 @@ function Refernces() {
         PG = currentPages + 1;
         break;
     }
-    var axios_params = { page: PG, per_page: perpage }
+    setCurrentPages(PG);
+    setLoading_page(true);
+    var axios_params = { page: PG, per_page: perpage,variant:activeKey }
     console.log(axios_params);
     await axiosYns.get('/paginate/correspondances', { params: axios_params })
       .then(({ data }) => {
         // setlistRefs(data.data)
         setlistRefs(data.data.data)
         setPages(data.data.links)
-        setCurrentPages(PG)
       }).catch((err) => {
         console.log(err);
       })
+      setLoading_page(false);
   }
   useEffect(() => {
     getData();
-  }, [perpage])
+  }, [perpage,activeKey])
 
   useEffect(()=>{
     getDocTypes();
@@ -74,14 +87,20 @@ const handleDateChange = (value) => {
 
 const filterByDate = (dateD, dateF) => {
   console.log(dateD + " " + dateF);
+
+  // const DD = moment(dateD);
+  // const DF = moment(dateF);
+
   setDateDebut(dateD);
   setDateFin(dateF);
+
   const filteredData = listRefs.filter((item) => {
     if (dateD && dateF) {
       const itemDate = moment(item.date);
       const formattedDate = itemDate.format('YYYY-MM-DD');
-      console.log(formattedDate);
+      // console.log(`${dateD} <===============(${formattedDate})=============> ${dateF}`)
       return formattedDate >= dateD && formattedDate <= dateF;
+      // return formattedDate >= DD && formattedDate <= DF;
     }
     return true;
   });
@@ -93,15 +112,33 @@ const filterByDate = (dateD, dateF) => {
 const goToStorePage = () => {
   Navigate('/newRefJuridique');
 }
+const viewPDF = (url) => {
+  var pdfURL=`http://localhost:8000/${url}`;
+  Navigate(`/pdf`,{
+    state: {
+      url: pdfURL,
+    }
+  })
+}
 const download = (url) => {
   window.open(`http://localhost:8000/${url}`, '_blank')
 }
-const update = (id) => {
-  Navigate(`/updateRef/${id}`)
+const update = async(ref) => {
+  if(activeKey==2){
+    await axiosYns.put('/correspondance', {id:ref.id,restor:true})
+    .then((response)=>{
+      console.log("restor REF",response.data)
+      getData();
+    })
+  }
+  else{
+    Navigate(`/updateRef/${ref.id}`)
+  }
 }
 const deleteRef = (id) => {
-  axiosYns.delete(`/correspondances/${id}`)
+  axiosYns.delete(`/correspondances/${id}`,{data:{isDestroy:activeKey==2}})
     .then((response) => {
+      console.log("destroy",response.data)
       getData();
     })
     .catch((error) => {
@@ -129,48 +166,88 @@ return (
   <div>
     <CCard className='shadow my-3 p-2 container'>
       <div className='row align-items-center justify-content-between'>
-        <div className='col-md-2 d-flex align-items-center'>
-          <CIcon className='m-2' size='lg' icon={cilAsteriskCircle} />
-
-          <input
-            type='text'
-            placeholder='Filter par ref'
-            onChange={(e) => filterByref(e.target.value)}
-            className='form-control'
-          />
-
+      <div className='col-md-2 d-flex align-items-center'>
+          <CInputGroup className="">
+            <CInputGroupText>
+              <CIcon icon={cilLayers} />
+            </CInputGroupText>
+            <CFormSelect
+              aria-label="Perpage"
+              className='text-center'
+              onChange={(e) => handlePerPageChange(e.target.value)}
+              value={perpage}
+            >
+              <option value="5">5/page</option>
+              <option value="10">10/page</option>
+              <option value="15">15/page</option>
+              <option value="20">20/page</option>
+              <option value="25">25/page</option>
+              <option value="30">30/page</option>
+            </CFormSelect>
+          </CInputGroup>
         </div>
-        <div className='col-md-6 d-flex align-items-center'>
-          {/* <CIcon className='m-2'  size='xl' icon={cilAsteriskCircle} /> */}
-          <input
+        <div className='col-md-2 d-flex align-items-center'>
+          <CInputGroup className="">
+            <CInputGroupText>
+              <CIcon icon={cilClearAll} />
+            </CInputGroupText>
+            <CFormInput placeholder="Filter par ref" onChange={(e) => filterByref(e.target.value)} />
+          </CInputGroup>
+        </div>
+        <div className='col-md-4 d-flex justify-content-center align-items-center'>
+          <CInputGroup className="">
+            <CInputGroupText>
+              <CIcon icon={cilCaretRight} />
+            </CInputGroupText>
+            <CFormInput
+              type='date' 
+              value={dateDebut}
+              placeholder='date debut'
+              onChange={(e) => filterByDate(e.target.value, dateFin)}
+              />
+          </CInputGroup>
+          <CInputGroup className="">
+            <CInputGroupText>
+              <CIcon icon={cilCaretLeft} />
+            </CInputGroupText>
+            <CFormInput
+              type='date' 
+              placeholder='date Fin'
+              value={dateFin}
+              onChange={(e) => filterByDate(dateDebut, e.target.value)}
+              />
+          </CInputGroup>
+          {/* <input
             type='date'
             value={dateDebut}
             placeholder='date debut'
             onChange={(e) => filterByDate(e.target.value, dateFin)}
             className='form-control'
-          />
-
+          /> 
           <input
             type='date'
             value={dateFin}
             onChange={(e) => filterByDate(dateDebut, e.target.value)}
             className='m-2 form-control'
-          />
+          />*/}
         </div>
         <div className='col-md-3 d-flex align-items-center'>
-          <CIcon className='m-2' size='xl' icon={cilSitemap} />
-        
-          <CFormSelect
-            aria-label="Select Document Type"
-            onChange={(e) => handleDoctypeChange(e.target.value)}
-            value={selectedDoctype}
-          >
-            {doctypes && doctypes.map((doctype) => (
-              <option key={doctype.id} value={doctype.nom}>
-                {doctype.nom}
-              </option>
-            ))}
-          </CFormSelect>
+          <CInputGroup className="">
+            <CInputGroupText>
+              <CIcon icon={cilSitemap} />
+            </CInputGroupText>
+            <CFormSelect
+              aria-label="Select Document Type"
+              onChange={(e) => handleDoctypeChange(e.target.value)}
+              value={selectedDoctype}
+            >
+              {doctypes && doctypes.map((doctype) => (
+                <option key={doctype.id} value={doctype.nom}>
+                  {doctype.nom}
+                </option>
+              ))}
+            </CFormSelect>
+          </CInputGroup>
         </div>
         <div className='col-md-1'>
           {
@@ -187,8 +264,44 @@ return (
         </div>
       </div>
     </CCard>
-    <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle text-center table-striped">
+    {/* tabs */}
+    <CNav variant="tabs" role="tablist">
+        <CNavItem role="presentation">
+          <CNavLink
+            active={activeKey === 1}
+            component="button"
+            role="tab"
+            aria-controls="home-tab-pane"
+            aria-selected={activeKey === 1}
+            onClick={() => setActiveKey(1)}
+          >
+            <CIcon size='xl' icon={cilLayers} />
+          </CNavLink>
+        </CNavItem>
+        <CNavItem role="presentation">
+          <CNavLink
+            active={activeKey === 2}
+            component="button"
+            role="tab"
+            aria-controls="profile-tab-pane"
+            aria-selected={activeKey === 2}
+            onClick={() => setActiveKey(2)}
+          >
+            <CIcon size='xl' icon={cilTrash} />
+          </CNavLink>
+        </CNavItem>
+      </CNav>
+      {/* finTabs */}
+    <div style={{minHeight:300}} class="table-responsive">
+      {
+        loading_page ?
+        <div class="text-center mt-5">
+          <div class="spinner-border" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        :
+        <table class="table table-bordered table-hover align-middle text-center table-striped">
         <thead>
           <tr>
             <th scope="col">
@@ -198,6 +311,7 @@ return (
             <th scope="col">Date</th>
             <th scope="col">Objet</th>
             <th scope="col">Type</th>
+            <th scope="col">created By</th>
             <th scope="col">actions</th>
           </tr>
         </thead>
@@ -212,12 +326,17 @@ return (
                     <td>{elem.date}</td>
                     <td>{elem.objet}</td>
                     <td>{elem.doctype.nom}</td>
+                    <td>{elem.user?elem.user.name:"***"}</td>
                     <td className='d-flex justify-content-around'>
-                      <button onClick={() => update(elem.id)} className='btn btn-primary'>
-                        <CIcon icon={cilPenAlt} />
+                      <button onClick={() => update(elem)} className='btn btn-primary'>
+                        <CIcon icon={activeKey==1?cilPenAlt:cilActionUndo} />
                       </button>
                       <button onClick={() => deleteRef(elem.id)} className='btn btn-danger'>
                         <CIcon icon={cilTrash} />
+                      </button>
+                      <button onClick={() => viewPDF(elem.file)} className='btn btn-secondary'>
+                        {/* <CIcon icon={cilLowVision} /> */}
+                        <CImage width={18} height={18} src={eyes} />
                       </button>
                       <button onClick={() => download(elem.file)} className='btn btn-info'>
                         <CIcon icon={cilCloudDownload} />
@@ -230,57 +349,39 @@ return (
           }
         </tbody>
       </table>
-      {listRefs &&
+      }
+      
+    </div>
+    {(listRefs && pages.length>3 ) &&
       <nav aria-label="Page navigation example">
 
         <ul class="pagination justify-content-center">
-          <li>
-            <CFormSelect
-              aria-label="Perpage"
-              className='text-center'
-              onChange={(e) => handlePerPageChange(e.target.value)}
-              value={perpage}
-            >
-              <option value="5">5</option>
-              <option value="10">10</option>
-              <option value="15">15</option>
-              <option value="20">20</option>
-              <option value="25">25</option>
-              <option value="30">30</option>
-            </CFormSelect>
-          </li>
           {
             pages.map((p, index) => {
               var page_label = index == 0 ? <CIcon icon={cilArrowCircleLeft} /> : index == pages.length - 1 ? <CIcon icon={cilArrowCircleRight} /> : index
               var disabled = (currentPages==1&&index==0) ||(currentPages==pages.length - 2 && index == pages.length-1 )
-              console.log(`${disabled} => pages : (${pages.length}/${pages.length - 2}) currentPage: ${currentPages} | index : (${index}/${index+1})`)
+              // console.log(`${disabled} => pages : (${pages.length}/${pages.length - 2}) currentPage: ${currentPages} | index : (${index}/${index+1})`)
               return (
                 <li className={`page-item ${disabled ? 'disabled' : ''}`} >
                   <button
                     onClick={() => getData(index)}
                     className={`page-link ${p.active ? 'active' : ''}`}
-                    tabindex="-1">{page_label}</button>
+                    tabindex="-1">
+                      {(loading_page && currentPages==index)?<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>:page_label} 
+                      </button>
                 </li>
               )
             })
           }
-
-          {/* <li class="page-item"><a class="page-link" href="#">1</a></li>
-            <li class="page-item"><a class="page-link" href="#">2</a></li>
-            <li class="page-item"><a class="page-link" href="#">3</a></li>
-            <li class="page-item">
-              <a class="page-link" href="#">Next</a>
-            </li> */}
         </ul>
       </nav>}
-    </div>
     {
-      !listRefs &&
-      <div class="text-center">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
+      // !listRefs &&
+      // <div class="text-center">
+      //   <div class="spinner-border" role="status">
+      //     <span class="visually-hidden">Loading...</span>
+      //   </div>
+      // </div>
     }
   </div>
 )

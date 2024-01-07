@@ -20,8 +20,13 @@ class CreateTextesReglementairesTable extends Migration
             $table->text('ref');
             $table->date('date');
             $table->text('texte');
-            $table->unsignedBigInteger('doctype_id');
-            $table->foreign('doctype_id')->references('id')->on('doctypes');            // Ajoutez d'autres colonnes si nécessaire
+            $table->unsignedBigInteger('doctype_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+            
+
+            $table->foreign('doctype_id')->references('id')->on('doctypes')->onDelete('set null');            // Ajoutez d'autres colonnes si nécessaire
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');             // Ajoutez d'autres colonnes si nécessaire
+            
             $table->timestamps(); // Ajoute des colonnes created_at et updated_at automatiquement
 
         });

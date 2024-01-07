@@ -11,14 +11,14 @@ function NewRefernces() {
   const [reference, setRefernce] = useState(null)
   const [date, setDate] = useState(null)
   const [file, setFile] = useState(null)
-  const [isLoading , setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
-  const [uploaded_percent,setUploaded_percent]=useState(0);
+  const [uploaded_percent, setUploaded_percent] = useState(0);
   const uploadProgress = (progressEvent) => {
     const { loaded, total } = progressEvent;
     let percent = Math.floor((loaded * 100) / total);
     setUploaded_percent(percent);
-    
+
   };
   const Navigate = useNavigate();
   const getDocTypes = async () => {
@@ -55,7 +55,7 @@ function NewRefernces() {
       },
       onUploadProgress: uploadProgress
     });
-    if(response){
+    if (response) {
       Navigate('/references-juridiques')
     }
     setIsLoading(false);
@@ -107,19 +107,28 @@ function NewRefernces() {
         <input
           type="file"
           className="form-control text-center"
-          onChange={(e) => setFile(e.target.files[0])} />
-          {
-          uploaded_percent>0 &&
+          onChange={(e) => setFile(e.target.files[0])}
+          accept="application/pdf"
+          />
+          
+        {
+          uploaded_percent > 0 &&
           <CProgress value={uploaded_percent}>
-            <CProgressBar className="overflow-visible text-dark px-2" color="success">{uploaded_percent<100?"Téléchargement : "+uploaded_percent+" %":"Sauvegarde..."}</CProgressBar>
+            <CProgressBar className="overflow-visible text-dark px-2" color="success">{uploaded_percent < 100 ? "Téléchargement : " + uploaded_percent + " %" : "Sauvegarde..."}</CProgressBar>
           </CProgress>
-          }
+        }
       </div>
-      <button onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'
-      disabled={isLoading}>
-        {isLoading?<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>:""} 
-        <span role="status">Ajouter</span>
+      <div className='d-flex justify-content-center'>
+        <button onClick={() => { Navigate(-1) }} className='mt-3 d-block mx-auto w-25 btn btn-danger'>
+          <span role="status">Annuler</span>
         </button>
+        <button onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'
+          disabled={isLoading}>
+          {isLoading ? <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> : ""}
+          <span role="status">Ajouter</span>
+        </button>
+        
+      </div>
     </div>
   )
 }

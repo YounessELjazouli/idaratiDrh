@@ -13,8 +13,11 @@ class CreateCorrespondancesTable extends Migration
             $table->date('date');
             $table->string('objet');
             $table->text('file');
-            $table->unsignedBigInteger('doctype_id');
-            $table->foreign('doctype_id')->references('id')->on('doctypes'); 
+            $table->unsignedBigInteger('doctype_id')->nullable();
+            $table->unsignedBigInteger('user_id')->nullable();
+
+            $table->foreign('doctype_id')->references('id')->on('doctypes')->onDelete('set null'); 
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('set null');  
             $table->timestamps(); // Ajoute des colonnes created_at et updated_at automatiquement
         });
     }

@@ -5,10 +5,12 @@ import {
   CCard,
   CCardBody,
   CCardGroup,
+  CCardTitle,
   CCol,
   CContainer,
   CForm,
   CFormInput,
+  CImage,
   CInputGroup,
   CInputGroupText,
   CRow,
@@ -18,6 +20,10 @@ import { cilLockLocked, cilSave, cilUser } from '@coreui/icons'
 import axiosYns from 'src/axios';
 import getCookie from 'src/helpers/getToken';
 import Swal from 'sweetalert2'
+
+import mi from 'src/images/mi.png'
+import logo2 from 'src/assets/logo/logo2.png'
+
 
 const Login = () => {
   // const [failed,setFailed] = useState(false)
@@ -87,39 +93,32 @@ const Login = () => {
                         type="password"
                         placeholder="Password"
                         autoComplete="current-password"
+                        onKeyUp={(event)=>{if(event.keyCode==13){login()}}}
                         onChange={(e) => setPassword(e.target.value)}
                       />
                     </CInputGroup>
                     <CRow>
-                      <CCol xs={6}>
-                        <CButton color="primary" className="px-4" onClick={login}>
+                      <CCol xs={12} className="text-right">
+                        <CButton color="info" className="px-4 fw-medium text-white" onClick={login}>
                         {connecting?<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>:""} 
-
                           Login
                         </CButton>
                       </CCol>
-                      <CCol xs={6} className="text-right">
+                      {/* <CCol xs={6} className="text-right">
                         <CButton color="link" className="px-0">
                           Forgot password?
                         </CButton>
-                      </CCol>
+                      </CCol> */}
                     </CRow>
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard className="text-white bg-primary py-5" style={{ width: '44%' }}>
+              <CCard className="text-white bg-success py-5" style={{ width: '44%' }}>
                 <CCardBody className="text-center">
                   <div>
-                    <h2>Sign up</h2>
-                    <p>
-                      Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-                      tempor incididunt ut labore et dolore magna aliqua.
-                    </p>
-                    <Link to="/register">
-                      <CButton color="primary" className="mt-3" active tabIndex={-1}>
-                        Register Now!
-                      </CButton>
-                    </Link>
+                    {/* <CImage className='bg-transparent border-0' rounded thumbnail width={200} height={200} src={morassalaty2} /> */}
+                    <CImage className='bg-transparent border-0' rounded thumbnail src={logo2} width={120} height={120} />
+                    <h1>Morassaaty</h1>
                   </div>
                 </CCardBody>
               </CCard>

@@ -25,18 +25,25 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/login',[UserController::class,'login']);
 Route::post('/register',[UserController::class,'register']);
-Route::post('/logout',[UserController::class,'logout']);
+Route::middleware('auth:sanctum')->get('/users',[UserController::class,'index']);
+Route::middleware('auth:sanctum')->delete('/user',[UserController::class,'remove']);
+Route::middleware('auth:sanctum')->post('/me',[UserController::class,'me']);
+Route::middleware('auth:sanctum')->post('/logout',[UserController::class,'logout']);
+Route::middleware('auth:sanctum')->post('/update_user',[UserController::class,'update']);
 
-Route::post('/check-login', [UserController::class,'checkLogin'])->name('checkLogin.api');
-Route::resource('textes-reglementaires', TexteReglementaireController::class);
-Route::resource('correspondances', CorrespondanceController::class);
-Route::get('/types-textes-reglementaires',[DoctypeController::class,"typeTextes"]);
-Route::get('/types-correspondances',[DoctypeController::class,"typeCorrespondances"]);
+Route::middleware('auth:sanctum')->post('/check-login', [UserController::class,'checkLogin'])->name('checkLogin.api');
+Route::middleware('auth:sanctum')->resource('textes-reglementaires', TexteReglementaireController::class);
+Route::middleware('auth:sanctum')->resource('correspondances', CorrespondanceController::class);
+Route::middleware('auth:sanctum')->put('/correspondance', [CorrespondanceController::class,'update']);
+Route::middleware('auth:sanctum')->get('/paginate/correspondances', [CorrespondanceController::class,'paginate']);
+Route::middleware('auth:sanctum')->get('/paginate/textes-reglementaires', [TexteReglementaireController::class,'paginate']);
+Route::middleware('auth:sanctum')->get('/types-textes-reglementaires',[DoctypeController::class,"typeTextes"]);
+Route::middleware('auth:sanctum')->get('/types-correspondances',[DoctypeController::class,"typeCorrespondances"]);
 
-Route::get('/stats-1',[StatController::class,"stat1"]);
-Route::get('/stats-2',[StatController::class,"stat2"]);
-Route::get('/stats-3',[StatController::class,"stat3"]);
+Route::middleware('auth:sanctum')->get('/stats-1',[StatController::class,"stat1"]);
+Route::middleware('auth:sanctum')->get('/stats-2',[StatController::class,"stat2"]);
+Route::middleware('auth:sanctum')->get('/stats-3',[StatController::class,"stat3"]);
 
-Route::get('/abstract',[StatController::class,"abstractStat"]);//abstract
+Route::middleware('auth:sanctum')->get('/abstract',[StatController::class,"abstractStat"]);//abstract
 
-Route::post('/texte-update/{id}',[TexteReglementaireController::class,"update"]);
+Route::middleware('auth:sanctum')->post('/texte-update',[TexteReglementaireController::class,"update"]);
