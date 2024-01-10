@@ -187,3 +187,21 @@ label{
 .booking-form .submit-btn:focus {
 	opacity: 0.9;
 }
+
+.addcard-container {
+  display: flex;
+  justify-content: center;
+  height: 80vh;
+}
+
+.addcard {
+  width: 80%;
+  max-width: 900px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.addcard-body {
+  padding: 20px;
+}

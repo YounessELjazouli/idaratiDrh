@@ -3,7 +3,7 @@ import axiosYns from 'src/axios'
 import { useNavigate } from 'react-router-dom'
 import './newcorr.css'
 import { CProgress, CProgressBar } from '@coreui/react'
-import { FileUploader } from 'react-drag-drop-files'
+// import { FileUploader } from 'react-drag-drop-files'
 import moment from 'moment/moment'
 import CorrespondanceForm from './form/correspondances'
 
@@ -74,57 +74,60 @@ const NewCorr = () => {
     // <>
     // <CorrespondanceForm/>
     // </>
-    <div>
-      <div className="d-flex w-75 mx-auto mb-3">
-        <label htmlFor="reference">Reference</label>
-        <input
-          type="text"
-          className="form-control"
-          id="reference"
-          onChange={(e) => setRefernce(e.target.value)}
-        />
+    <div className="addcard-container">
+      <div className="addcard">
+        <div className="addcard-body">
+          <div className="d-flex w-75 mx-auto mb-3">
+            <label htmlFor="reference">Reference</label>
+            <input
+              type="text"
+              className="form-control"
+              id="reference"
+              onChange={(e) => setRefernce(e.target.value)}
+            />
 
-      </div>
-      <div className="d-flex w-75 mx-auto mb-3">
-        <label htmlFor="date">Date</label>
-        <input
-          type="date"
-          className="form-control"
-          id="date"
-          onChange={(e) => setDate(e.target.value)}
-        />
-      </div>
-      <div className="d-flex w-75 mx-auto mb-3">
-        <label htmlFor="sujet">Sujet</label>
-        <textarea
-          className="form-control"
-          id="sujet"
-          onChange={(e) => setSujet(e.target.value)}
-        ></textarea>
-      </div>
-      <div className="d-flex w-75 mx-auto mb-3">
-        <label htmlFor="docTypes">Document Types</label>
-        <select
-          className="form-select"
-          onChange={(e) => setSelectedDoctypes(e.target.value)}
-        >
-          <option value="">Select Document Type</option>
-          {doctypes &&
-            doctypes.map((d, index) => (
-              <option key={index} value={d.id}>
-                {d.nom}
-              </option>
-            ))}
-        </select>
-      </div>
-      <div className="d-flex flex-column w-75 mx-auto mb-3">
-        <input
-          type="file"
-          className="form-control"
-          onChange={(e) => setFile(e.target.files)}
-          accept="application/pdf"
-        />
-        {/* <FileUploader
+          </div>
+          <div className="d-flex w-75 mx-auto mb-3">
+            <label htmlFor="date">Date</label>
+            <input
+              type="date"
+              className="form-control"
+              id="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+            />
+          </div>
+          <div className="d-flex w-75 mx-auto mb-3">
+            <label htmlFor="sujet">Sujet</label>
+            <textarea
+              className="form-control"
+              id="sujet"
+              onChange={(e) => setSujet(e.target.value)}
+            ></textarea>
+          </div>
+          <div className="d-flex w-75 mx-auto mb-3">
+            <label htmlFor="docTypes">Document Types</label>
+            <select
+              className="form-select"
+              onChange={(e) => setSelectedDoctypes(e.target.value)}
+            >
+              <option value="">Select Document Type</option>
+              {doctypes &&
+                doctypes.map((d, index) => (
+                  <option key={index} value={d.id}>
+                    {d.nom}
+                  </option>
+                ))}
+            </select>
+          </div>
+          <div className="d-flex flex-column w-75 mx-auto mb-3">
+            <input
+              type="file"
+              className="form-control"
+              onChange={(e) => setFile(e.target.files)}
+              accept="application/pdf"
+            />
+            {/* <FileUploader
         multiple={true} handleChange={handleChange} name="file" types={fileTypes} />
 
 
@@ -143,24 +146,26 @@ const NewCorr = () => {
                                 </ul>
                                 </>
                                 } */}
-        {
-          uploaded_percent > 0 &&
-          <CProgress value={uploaded_percent}>
-            <CProgressBar className="overflow-visible text-dark px-2" color="success">{uploaded_percent < 100 ? "Téléchargement : " + uploaded_percent + " %" : "Sauvegarde..."}</CProgressBar>
-          </CProgress>
-        }
-      </div>
-      <div className='d-flex justify-content-center'>
-        <button onClick={() => { Navigate(-1) }} className='mt-3 d-block mx-auto w-25 btn btn-danger'>
-          <span role="status">Annuler</span>
-        </button>
-        <button disabled={loading} onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'>
-          {loading ? <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> : ""}
-          <span role="status">Ajouter</span>
-        </button>
+            {
+              uploaded_percent > 0 &&
+              <CProgress value={uploaded_percent}>
+                <CProgressBar className="overflow-visible text-dark px-2" color="success">{uploaded_percent < 100 ? "Téléchargement : " + uploaded_percent + " %" : "Sauvegarde..."}</CProgressBar>
+              </CProgress>
+            }
+          </div>
+          <div className='d-flex justify-content-center'>
+            <button onClick={() => { Navigate(-1) }} className='mt-3 d-block mx-auto w-25 btn btn-danger'>
+              <span role="status">Annuler</span>
+            </button>
+            <button disabled={loading} onClick={storeData} className='mt-3 d-block mx-auto w-25 btn btn-primary'>
+              {loading ? <span class="spinner-border spinner-border-sm" aria-hidden="true"></span> : ""}
+              <span role="status">Ajouter</span>
+            </button>
 
+          </div>
+        </div >
       </div>
-    </div >
+    </div>
     // ==========================================================================
   )
 }

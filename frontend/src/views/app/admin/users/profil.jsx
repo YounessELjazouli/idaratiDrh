@@ -104,12 +104,9 @@ const Profil = (props) => {
                 if(response.status==200){
                     Swal.fire({
                         title: "l'enregistrement effectuer",
-                        text: `${response.data.message}`,
+                        text: ``,
                         icon: "success",
-                        showCancelButton: true,
-                        confirmButtonText: "OUI",
-                        cancelButtonText: "NON!",
-                        reverseButtons: true
+                        showCancelButton: false
                     })
                     // setUser({...user,old_password:"",new_password:"",new_confirm_password:""})
                     setUser({...response.data.user})

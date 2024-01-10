@@ -135,7 +135,7 @@ const Users = () => {
                                         <CCard className='m-2'>
                                             <CCardHeader className='d-flex justify-content-around align-items-center'>
                                                 {/* <CIcon className='mr-5' icon={av1} size="lg" /> */}
-                                                <CCardTitle className='ml-2'>YOU</CCardTitle>
+                                                <CCardTitle className='ml-2'>{me.name}</CCardTitle>
                                             </CCardHeader>
                                             <CCardBody className='d-flex justify-content-around align-items-center'>
                                                 <CAvatar className='shadow-sm' src={me.picture?`${base_API_Url.base_API_Url}/${me.picture}`:av1} size="lg" />

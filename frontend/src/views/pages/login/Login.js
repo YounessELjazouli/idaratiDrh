@@ -32,6 +32,7 @@ const Login = () => {
   const [connecting,setConnecting]=useState(false)
   const Navigate = useNavigate();
   const login = async () => {
+    console.log(axiosYns.getUri())
     try {
       const formData = {
         email: email,
@@ -39,6 +40,7 @@ const Login = () => {
       }
       setConnecting(true);
       const response = await axiosYns.post('/login', formData);
+      console.log(response);
       setConnecting(false);
       if (response.data.success) {
         
@@ -54,6 +56,7 @@ const Login = () => {
         console.log(response); // Log the error message
       }
     } catch (error) {
+      console.log(error);
       if(error.response.status==401){
         // setFailed(true);
         setConnecting(false);
@@ -100,7 +103,7 @@ const Login = () => {
                     <CRow>
                       <CCol xs={12} className="text-right">
                         <CButton color="info" className="px-4 fw-medium text-white" onClick={login}>
-                        {connecting?<span class="spinner-border spinner-border-sm" aria-hidden="true"></span>:""} 
+                        {connecting?<span className="spinner-border spinner-border-sm" aria-hidden="true"></span>:""} 
                           Login
                         </CButton>
                       </CCol>

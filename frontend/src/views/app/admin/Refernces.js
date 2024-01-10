@@ -24,8 +24,8 @@ function Refernces() {
   const [listRefs, setlistRefs] = useState(null);
   const [filteredListRefs, setfilteredListRefs] = useState(null);
   const [isFiltered, setIsFilterd] = useState(false);
-  const [dateDebut, setDateDebut] = useState("");
-  const [dateFin, setDateFin] = useState("");
+  const [dateDebut, setDateDebut] = useState(moment().format('YYYY-MM-DD'));
+  const [dateFin, setDateFin] = useState(moment().format('YYYY-MM-DD'));
   const [doctypes, setdoctypes] = useState(null)
   const [selectedDoctype, setSelectedDoctype] = useState('');
   const [loading_page,setLoading_page] = useState(false)

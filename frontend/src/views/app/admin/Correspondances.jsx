@@ -19,8 +19,8 @@ function Correspondances() {
   const [listRefs, setlistRefs] = useState(null);
   const [filteredListRefs, setfilteredListRefs] = useState([]);
   const [isFiltered, setIsFilterd] = useState(false);
-  const [dateDebut, setDateDebut] = useState("");
-  const [dateFin, setDateFin] = useState("");
+  const [dateDebut, setDateDebut] = useState(moment().format('YYYY-MM-DD'));
+  const [dateFin, setDateFin] = useState(moment().format('YYYY-MM-DD'));
 
   const [doctypes, setdoctypes] = useState(null)
   const [activeKey, setActiveKey] = useState(1)
